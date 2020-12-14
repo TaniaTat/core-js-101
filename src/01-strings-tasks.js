@@ -52,7 +52,7 @@ function getStringLength(value) {
  *   'Chuck','Norris'  => 'Hello, Chuck Norris!'
  */
 function getStringFromTemplate(firstName, lastName) {
-  return `${firstName} ${lastName}`;
+  return `Hello, ${firstName} ${lastName}!`;
 }
 
 /**
@@ -131,7 +131,8 @@ function repeatString(value, count) {
  *   'ABABAB','BA' => 'ABAB'
  */
 function removeFirstOccurrences(str, value) {
-  return str.substr(str.search(value), value.length);
+  return str.slice(0, str.search(value))
+    .concat(str.slice(str.search(value) + value.length, str.length));
 }
 
 /**
@@ -217,21 +218,21 @@ function getRectangleString(width, height) {
   for (let row = 1; row < height + 1; row += 1) {
     if (width > 2) {
       if (row !== 1 && row !== height) shape = `${shape}${symbVert}`;
-      for (let col = 1; col < width - 2; col += 1) {
+      for (let col = 1; col < width - 1; col += 1) {
         if (col === 1 && row === 1) { shape = `${shape}${symbOpenUp}`; }
         if (col === 1 && row === height) { shape = `${shape}${symbOpenDown}`; }
         if (row === 1 || row === height) { shape = `${shape}${symbHoriz}`; } else { shape = `${shape} `; }
       }
       if (row === 1) {
-        shape = `${shape}${symbCloseUp}/n\n`;
+        shape = `${shape}${symbCloseUp}\n`;
       } else {
-        shape = (row === height) ? `${shape}${symbCloseDown}` : `${shape}${symbVert}/n\n`;
+        shape = (row === height) ? `${shape}${symbCloseDown}\n` : `${shape}${symbVert}\n`;
       }
     } else {
-      shape = `${symbOpenUp}${symbCloseUp}/n\n${symbOpenDown}${symbCloseDown}`;
+      shape = `${symbOpenUp}${symbCloseUp}\n${symbOpenDown}${symbCloseDown}\n`;
     }
   }
-  return `${shape}/n`;
+  return shape;
 }
 
 /**
@@ -256,13 +257,13 @@ function encodeToRot13(str) {
   for (let i = 0; i < str.length; i += 1) {
     charCode = str.charCodeAt(i);
     if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123)) {
-      if (charCode > 77 || charCode > 109) {
+      if ((charCode > 77 && charCode < 91) || (charCode > 109 && charCode < 123)) {
         charCode -= 13;
       } else {
         charCode += 13;
       }
     }
-    resStr = `${resStr}${str.fromCharCode(charCode)}`;
+    resStr = `${resStr}${String.fromCharCode(charCode)}`;
   }
   return resStr;
 }
@@ -276,12 +277,12 @@ function encodeToRot13(str) {
  *   isString() => false
  *   isString(null) => false
  *   isString([]) => false
- *   isString({}) => false
+ *   isString(  ) => false
  *   isString('test') => true
  *   isString(new String('test')) => true
  */
 function isString(value) {
-  return typeof value === 'string';
+  return typeof value === 'string' || value instanceof String;
 }
 
 

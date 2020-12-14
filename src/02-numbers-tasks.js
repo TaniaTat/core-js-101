@@ -51,7 +51,9 @@ function getCicleCircumference(radius) {
  *  -3, 3  => 0
  */
 function getAverage(value1, value2) {
-  return (value1 * value2) / 2;
+  const huge1 = BigInt(value1);
+  const huge2 = BigInt(value2);
+  return (huge1 + huge2) / BigInt(2);
 }
 
 /**
@@ -235,7 +237,7 @@ function isPrime(n) {
  *   toNumber(new Number(42), 0) => 42
  */
 function toNumber(value, def) {
-  return (Number.isInteger(value)) ? value : def;
+  return (Number.isInteger(parseInt(value, 10))) ? value : def;
 }
 
 module.exports = {
